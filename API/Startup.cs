@@ -35,10 +35,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationServices(_config);
-
             services.AddControllers();
             services.AddCors();
-
             services.AddIdentityServices(_config);
         }
 
@@ -54,7 +52,6 @@ namespace API
             app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
