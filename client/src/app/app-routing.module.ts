@@ -6,6 +6,9 @@ import {MemberDetailComponent} from "./members/member-detail/member-detail.compo
 import {ListsComponent} from "./lists/lists.component";
 import {MessagesComponent} from "./messages/messages.component";
 import {AuthGuard} from "./_guards/auth.guard";
+import {TextErrorsComponent} from "./errors/text-errors/text-errors.component";
+import {NotFoundComponent} from "./errors/not-found/not-found.component";
+import {ServerErrorComponent} from "./errors/server-error/server-error.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -13,7 +16,10 @@ const routes: Routes = [
   {path: 'members/:id', component: MemberDetailComponent},
   {path: 'lists', component: ListsComponent},
   {path: 'messages', component: MessagesComponent},
-  {path: '**', component: HomeComponent, pathMatch: 'full'}  // ? Le ** permet de faire que si la route demandé n'est aucune d'elle alors elle renvoie vers HomeComponent
+  {path: 'errors', component: TextErrorsComponent},
+  {path: 'not-found', component: NotFoundComponent},
+  {path: 'server-error', component: ServerErrorComponent},
+  {path: '**', component: NotFoundComponent, pathMatch: 'full'}  // ? Le ** permet de faire que si la route demandé n'est aucune d'elle alors elle renvoie vers HomeComponent
 ];
 
 @NgModule({
