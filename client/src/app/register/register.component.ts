@@ -1,15 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AccountService} from "../_services/account.service";
-import {ToastrService} from "ngx-toastr";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  //@Input() usersFormHomeComponent: any;                 // * Permet de faire un flux de données du component Parent vers Enfant
-  @Output() cancelRegister = new EventEmitter();        // * Permet de faire un flux de données du component Enfant vers Parent
+  @Output() cancelRegister = new EventEmitter();
   model: any = {};
 
   constructor(private accountService: AccountService, private toastr: ToastrService) { }
@@ -22,12 +21,12 @@ export class RegisterComponent implements OnInit {
       console.log(response);
       this.cancel();
     }, error => {
-      console.log(error)
-      this.toastr.error(error.error)
+      console.log(error);
+      this.toastr.error(error.error);
     })
   }
 
-  cancel(){
+  cancel() {
     this.cancelRegister.emit(false);
   }
 
