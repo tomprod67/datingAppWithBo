@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 
-namespace API.Extensions
+namespace Generic.Extensions
 {
     public static class ClaimsPrincipleExtensions
     {
@@ -12,6 +8,5 @@ namespace API.Extensions
         {
             return user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
-
     }
 }

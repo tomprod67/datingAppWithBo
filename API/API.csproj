@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Generic\Generic.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 

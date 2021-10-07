@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using DB.Data;
 using Service.DTOs;
 using DB.Entities;
-using API.Extensions;
+using Generic.Extensions;
 using Service.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;

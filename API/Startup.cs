@@ -1,5 +1,5 @@
 using DB.Data;
-using API.Extensions;
+using Generic.Extensions;
 using Service.Interfaces;
 using API.Middleware;
 using Service.Services;

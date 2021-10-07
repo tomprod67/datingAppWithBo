@@ -1,7 +1,7 @@
 using System.Linq;
 using Service.DTOs;
 using DB.Entities;
-using Service.Extensions;
+using Generic.Extensions;
 using AutoMapper;
 
 namespace Service.Helpers
