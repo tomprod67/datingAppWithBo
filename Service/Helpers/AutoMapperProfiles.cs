@@ -1,10 +1,10 @@
 using System.Linq;
-using API.DTOs;
-using API.Entities;
-using API.Extensions;
+using Service.DTOs;
+using DB.Entities;
+using Service.Extensions;
 using AutoMapper;
 
-namespace API.Helpers
+namespace Service.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
