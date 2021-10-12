@@ -27,7 +27,8 @@ namespace API.Controllers
             this._photoService = photoService;
             _userRepository = userRepository;
         }
-
+        
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
