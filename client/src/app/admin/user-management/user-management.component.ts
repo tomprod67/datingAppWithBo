@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {BsModalRef, BsModalService, ModalOptions} from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { RolesModalComponent } from 'src/app/modals/roles-modal/roles-modal.component';
 import { User } from 'src/app/_models/user';
 import { AdminService } from 'src/app/_services/admin.service';
-import {RolesModalComponent} from "../../modals/roles-modal/roles-modal.component";
 
 @Component({
   selector: 'app-user-management',
@@ -36,15 +36,14 @@ export class UserManagementComponent implements OnInit {
     this.bsModalRef = this.modalService.show(RolesModalComponent, config);
     this.bsModalRef.content.updateSelectedRoles.subscribe(values => {
       const rolesToUpdate = {
-        roles: [...values.filter(el => el.checked == true).map(el => el.name)]
+        roles: [...values.filter(el => el.checked === true).map(el => el.name)]
       };
-      if (rolesToUpdate){
+      if (rolesToUpdate) {
         this.adminService.updateUserRoles(user.username, rolesToUpdate.roles).subscribe(() => {
           user.roles = [...rolesToUpdate.roles]
         })
       }
-    });
-
+    })
   }
 
   private getRolesArray(user) {
@@ -61,14 +60,14 @@ export class UserManagementComponent implements OnInit {
       for (const userRole of userRoles) {
         if (role.name === userRole) {
           isMatch = true;
-          role.checked = true,
-            roles.push(role);
+          role.checked = true;
+          roles.push(role);
           break;
         }
       }
       if (!isMatch) {
         role.checked = false;
-        roles.push(role)
+        roles.push(role);
       }
     })
     return roles;

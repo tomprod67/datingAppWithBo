@@ -1,33 +1,43 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from 'src/app/_services/members.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
-import {TabDirective, TabsetComponent} from 'ngx-bootstrap/tabs';
-import {Message} from '../../_models/message';
-import {MessageService} from '../../_services/message.service';
+import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
+import { Message } from 'src/app/_models/message';
+import { MessageService } from 'src/app/_services/message.service';
+import { PresenceService } from 'src/app/_services/presence.service';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css']
 })
-export class MemberDetailComponent implements OnInit {
+export class MemberDetailComponent implements OnInit, OnDestroy {
   @ViewChild('memberTabs', {static: true}) memberTabs: TabsetComponent;
   member: Member;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
-  activeTabs: TabDirective;
+  activeTab: TabDirective;
   messages: Message[] = [];
+  user: User;
 
-  constructor(private memberService: MembersService, private route: ActivatedRoute, private messageService: MessageService) { }
+  constructor(public presence: PresenceService, private route: ActivatedRoute, 
+    private messageService: MessageService, private accountService: AccountService,
+    private router: Router) { 
+      this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.member = data.member;
-    });
+    })
 
-    this.route.queryParams.subscribe(params => {    // ? Permet de faire que si il y a un paramètre dans l'url alors il le lit
+    this.route.queryParams.subscribe(params => {
       params.tab ? this.selectTab(params.tab) : this.selectTab(0);
     })
 
@@ -57,9 +67,9 @@ export class MemberDetailComponent implements OnInit {
     return imageUrls;
   }
 
-  loadMessages(){
+  loadMessages() {
     this.messageService.getMessageThread(this.member.username).subscribe(messages => {
-      this.messages = messages
+      this.messages = messages;
     })
   }
 
@@ -68,10 +78,16 @@ export class MemberDetailComponent implements OnInit {
   }
 
   onTabActivated(data: TabDirective) {
-    this.activeTabs = data;
-    if (this.activeTabs.heading == 'Messages' && this.messages.length === 0) {
-      this.loadMessages();
+    this.activeTab = data;
+    if (this.activeTab.heading === 'Messages' && this.messages.length === 0) {
+      this.messageService.createHubConnection(this.user, this.member.username);
+    } else {
+      this.messageService.stopHubConnection();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
   }
 
 }

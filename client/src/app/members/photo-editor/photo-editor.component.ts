@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Member} from "../../_models/member";
-import {environment} from "../../../environments/environment";
-import {FileUploader} from "ng2-file-upload";
-import {AccountService} from "../../_services/account.service";
-import {User} from "../../_models/user";
-import {take} from "rxjs/operators";
-import {Photo} from "../../_models/photo";
-import {MembersService} from "../../_services/members.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { Member } from 'src/app/_models/member';
+import { FileUploader } from 'ng2-file-upload';
+import { environment } from 'src/environments/environment';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { take } from 'rxjs/operators';
+import { MembersService } from 'src/app/_services/members.service';
+import { Photo } from 'src/app/_models/photo';
 
 @Component({
   selector: 'app-photo-editor',
@@ -20,8 +20,7 @@ export class PhotoEditorComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User;
 
-
-  constructor(private accountService: AccountService, private memberService: MembersService) {
+  constructor(private accountService: AccountService, private memberService: MembersService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -29,8 +28,8 @@ export class PhotoEditorComponent implements OnInit {
     this.initializeUploader();
   }
 
-  fileOverBase(event: any) {
-    this.hasBaseDropzoneOver = event;
+  fileOverBase(e: any) {
+    this.hasBaseDropzoneOver = e;
   }
 
   setMainPhoto(photo: Photo) {
@@ -43,11 +42,11 @@ export class PhotoEditorComponent implements OnInit {
         if (p.id === photo.id) p.isMain = true;
       })
     })
-  }
+  } 
 
   deletePhoto(photoId: number) {
     this.memberService.deletePhoto(photoId).subscribe(() => {
-      this.member.photos = this.member.photos.filter(x => x.id !== photoId)
+      this.member.photos = this.member.photos.filter(x => x.id !== photoId);
     })
   }
 
@@ -67,14 +66,14 @@ export class PhotoEditorComponent implements OnInit {
     }
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
-      if (response){
+      if (response) {
         const photo: Photo = JSON.parse(response);
         this.member.photos.push(photo);
-        if (photo.isMain) {
-          this.user.photoUrl = photo.url;
-          this.member.photoUrl = photo.url;
-          this.accountService.setCurrentUser(this.user);
-        }
+         if (photo.isMain) {
+           this.user.photoUrl = photo.url;
+           this.member.photoUrl = photo.url;
+           this.accountService.setCurrentUser(this.user);
+         }
       }
     }
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
-import {MessageService} from '../_services/message.service';
+import { MessageService } from '../_services/message.service';
 
 @Component({
   selector: 'app-messages',
@@ -9,9 +9,9 @@ import {MessageService} from '../_services/message.service';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-  messages: Message[];
+  messages: Message[] = [];
   pagination: Pagination;
-  container= "Unread";
+  container = 'Unread';
   pageNumber = 1;
   pageSize = 5;
   loading = false;
@@ -19,10 +19,10 @@ export class MessagesComponent implements OnInit {
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.loadMessage()
+    this.loadMessages();
   }
 
-  loadMessage() {
+  loadMessages() {
     this.loading = true;
     this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe(response => {
       this.messages = response.result;
@@ -33,13 +33,13 @@ export class MessagesComponent implements OnInit {
 
   deleteMessage(id: number) {
     this.messageService.deleteMessage(id).subscribe(() => {
-      this.messages.splice(this.messages.findIndex(m => m.id == id), 1);
+      this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
     })
   }
 
   pageChanged(event: any) {
     this.pageNumber = event.page;
-    this.loadMessage();
+    this.loadMessages();
   }
 
 }

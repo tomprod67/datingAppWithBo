@@ -16,7 +16,7 @@ namespace DB.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.0-preview.8.20407.4");
 
-            modelBuilder.Entity("API.Entities.AppUser", b =>
+            modelBuilder.Entity("DB.Entities.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace DB.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("API.Entities.Photo", b =>
+            modelBuilder.Entity("DB.Entities.Photo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,9 +91,9 @@ namespace DB.Data.Migrations
                     b.ToTable("Photos");
                 });
 
-            modelBuilder.Entity("API.Entities.Photo", b =>
+            modelBuilder.Entity("DB.Entities.Photo", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "AppUser")
+                    b.HasOne("DB.Entities.AppUser", "AppUser")
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
